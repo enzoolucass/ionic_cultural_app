@@ -1,0 +1,103 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Editar Evento' : 'Novo Evento' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-input label="Nome do Evento" label-placement="floating" formControlName="nome" required></ion-input>
+      <ion-text color="danger" *ngIf="eventForm.get('nome')?.touched && eventForm.get('nome')?.errors?.['required']">
+        <p>Nome é obrigatório.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea label="Descrição" label-placement="floating" formControlName="descricao" auto-grow="true"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Data e Hora de Início" label-placement="floating" type="datetime-local" formControlName="data_hora_inicio" required></ion-input>
+      <ion-text color="danger" *ngIf="eventForm.get('data_hora_inicio')?.touched && eventForm.get('data_hora_inicio')?.errors?.['required']">
+        <p>Data de início é obrigatória.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Data e Hora de Término" label-placement="floating" type="datetime-local" formControlName="data_hora_termino" required></ion-input>
+      <ion-text color="danger" *ngIf="eventForm.get('data_hora_termino')?.touched && eventForm.get('data_hora_termino')?.errors?.['required']">
+        <p>Data de término é obrigatória.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Local" label-placement="floating" formControlName="local" required></ion-input>
+      <ion-text color="danger" *ngIf="eventForm.get('local')?.touched && eventForm.get('local')?.errors?.['required']">
+        <p>Local é obrigatório.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Endereço" label-placement="floating" formControlName="endereco" required></ion-input>
+      <ion-text color="danger" *ngIf="eventForm.get('endereco')?.touched && eventForm.get('endereco')?.errors?.['required']">
+        <p>Endereço é obrigatório.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Cidade" label-placement="floating" formControlName="cidade" required></ion-input>
+      <ion-text color="danger" *ngIf="eventForm.get('cidade')?.touched && eventForm.get('cidade')?.errors?.['required']">
+        <p>Cidade é obrigatória.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Estado (Ex: TO)" label-placement="floating" formControlName="estado" required maxlength="2"></ion-input>
+      <ion-text color="danger" *ngIf="eventForm.get('estado')?.touched && eventForm.get('estado')?.errors?.['required']">
+        <p>Estado é obrigatório.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-select label="Categoria" label-placement="floating" formControlName="categoria" required>
+        <ion-select-option *ngFor="let cat of categorias" [value]="cat.value">{{ cat.label }}</ion-select-option>
+      </ion-select>
+      <ion-text color="danger" *ngIf="eventForm.get('categoria')?.touched && eventForm.get('categoria')?.errors?.['required']">
+        <p>Categoria é obrigatória.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-toggle formControlName="ingresso_gratuito">Entrada Gratuita</ion-toggle>
+    </ion-item>
+
+    <ion-item *ngIf="!eventForm.get('ingresso_gratuito')?.value">
+      <ion-input label="Preço do Ingresso" label-placement="floating" type="number" formControlName="preco_ingresso"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Link para Compra" label-placement="floating" type="url" formControlName="link_compra_ingresso"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Contato para Dúvidas" label-placement="floating" formControlName="contato_duvidas"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-select label="Status do Evento" label-placement="floating" formControlName="status" required>
+        <ion-select-option *ngFor="let st of statusChoices" [value]="st.value">{{ st.label }}</ion-select-option>
+      </ion-select>
+      <ion-text color="danger" *ngIf="eventForm.get('status')?.touched && eventForm.get('status')?.errors?.['required']">
+        <p>Status é obrigatório.</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!eventForm.valid" class="ion-margin-top">
+      {{ isEditMode ? 'Salvar Alterações' : 'Criar Evento' }}
+    </ion-button>
+  </form>
+</ion-content>
